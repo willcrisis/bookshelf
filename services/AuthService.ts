@@ -6,22 +6,7 @@ export default interface AuthService {
         setAuthLoading: (authLoading: boolean) => void
     ) => void;
 
-    loginWithEmailAndPassword: (
-        email: string,
-        password: string
-    ) => Promise<UserCredential>;
-
-    registerWithEmailAndPassword: (
-        name: string,
-        email: string,
-        password: string
-    ) => Promise<UserCredential>;
-
     loginWithGoogle: () => Promise<UserCredential>;
 
-    loginWithFacebook: () => Promise<UserCredential>;
-
     logOut: () => Promise<void>;
-
-    resetPassword: (email: string) => Promise<void>;
 }

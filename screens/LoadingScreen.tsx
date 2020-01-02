@@ -4,12 +4,7 @@ import { Asset } from 'expo-asset';
 import { useApp } from '../contexts/AppContext';
 
 const loadImages = () =>
-    Promise.all([
-        Asset.loadAsync([
-            require('assets/background.jpg'),
-            require('assets/logo.png')
-        ])
-    ]);
+    Promise.all([Asset.loadAsync([require('assets/logo.png')])]);
 
 const LoadingScreen: FunctionComponent<{}> = () => {
     const { setAppLoading } = useApp();

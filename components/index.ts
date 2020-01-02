@@ -6,7 +6,9 @@ import {
     Layout,
     TopNavigation,
     TopNavigationAction,
-    Avatar
+    Avatar,
+    List,
+    ListItem
 } from 'react-native-ui-kitten';
 
 import Button from './Button/Button';
@@ -28,5 +30,7 @@ export {
     TopNavigation,
     TopNavigationAction,
     Avatar,
-    UserAvatar
+    UserAvatar,
+    List,
+    ListItem
 };

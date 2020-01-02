@@ -5,21 +5,26 @@ import ServicesContextProvider from 'contexts/ServicesContext';
 import AuthContextProvider from 'contexts/AuthContext';
 import AppContextProvider from 'contexts/AppContext';
 import ThemeContextProvider from 'contexts/ThemeContext';
+import DataContextProvider from 'contexts/DataContext';
 import AppNavigator from './navigation/AppNavigator';
 
 Config.initialize();
 
 const App = () => (
-    <ServicesContextProvider>
-        <AuthContextProvider>
-            <AppContextProvider>
-                <ThemeContextProvider>
-                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                    <AppNavigator />
-                </ThemeContextProvider>
-            </AppContextProvider>
-        </AuthContextProvider>
-    </ServicesContextProvider>
+    <ThemeContextProvider>
+        <ServicesContextProvider>
+            <AuthContextProvider>
+                <DataContextProvider>
+                    <AppContextProvider>
+                        {Platform.OS === 'ios' && (
+                            <StatusBar barStyle="default" />
+                        )}
+                        <AppNavigator />
+                    </AppContextProvider>
+                </DataContextProvider>
+            </AuthContextProvider>
+        </ServicesContextProvider>
+    </ThemeContextProvider>
 );
 
 export default App;

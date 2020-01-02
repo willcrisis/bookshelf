@@ -4,12 +4,18 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { useAuth } from '../contexts/AuthContext';
 import { useApp } from '../contexts/AppContext';
 import LoadingScreen from '../screens/LoadingScreen';
-import AppScreen from '../screens/AppScreen/AppScreen';
+import BookList from '../screens/BookList/BookList';
 import AuthScreen from '../screens/AuthScreen/AuthScreen';
 
-const AppNavigator = createStackNavigator({
-    App: AppScreen
-});
+const AppNavigator = createStackNavigator(
+    {
+        Books: BookList
+    },
+    {
+        initialRouteName: 'Books',
+        cardStyle: { flex: 1 }
+    }
+);
 
 const AuthNavigator = createStackNavigator({
     Auth: {

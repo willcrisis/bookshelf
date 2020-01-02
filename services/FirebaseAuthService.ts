@@ -6,12 +6,16 @@ import * as Google from 'expo-google-app-auth';
 import Config from 'config';
 import { User, UserCredential } from 'types';
 import AuthService from './AuthService';
+import DataService from './DataService';
 
 export default class FirebaseAuth implements AuthService {
     authInstance: firebase.auth.Auth;
 
-    constructor() {
+    dataService: DataService;
+
+    constructor(dataService: DataService) {
         this.authInstance = firebase.auth();
+        this.dataService = dataService;
     }
 
     listenToLoginChanges = (
@@ -21,6 +25,9 @@ export default class FirebaseAuth implements AuthService {
         this.authInstance.onAuthStateChanged(user => {
             setCurrentUser(user);
             setAuthLoading(false);
+            if (user) {
+                this.dataService.updateUserData(user);
+            }
         });
 
     loginWithGoogle = (): Promise<UserCredential> => {

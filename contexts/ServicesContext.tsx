@@ -6,9 +6,12 @@ import React, {
 } from 'react';
 import AuthService from 'services/AuthService';
 import FirebaseAuthService from 'services/FirebaseAuthService';
+import DataService from 'services/DataService';
+import FirebaseDataService from 'services/FirebaseDataService';
 
 type Services = {
     authService: AuthService;
+    dataService: DataService;
 };
 
 const ServicesContext = createContext<Services>(null);
@@ -16,11 +19,13 @@ const ServicesContext = createContext<Services>(null);
 const ServicesContextProvider: FunctionComponent<PropsWithChildren<{}>> = ({
     children
 }) => {
-    const authService = new FirebaseAuthService();
+    const dataService = new FirebaseDataService();
+    const authService = new FirebaseAuthService(dataService);
     return (
         <ServicesContext.Provider
             value={{
-                authService
+                authService,
+                dataService
             }}
         >
             {children}

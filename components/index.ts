@@ -1,9 +1,19 @@
-import { Input, Icon, Text, Modal, Layout } from 'react-native-ui-kitten';
+import {
+    Input,
+    Icon,
+    Text,
+    Modal,
+    Layout,
+    TopNavigation,
+    TopNavigationAction,
+    Avatar
+} from 'react-native-ui-kitten';
 
 import Button from './Button/Button';
 import PasswordInput from './PasswordInput';
 import ScreenContainer from './ScreenContainer/ScreenContainer';
 import Spacer from './Spacer/Spacer';
+import UserAvatar from './UserAvatar/UserAvatar';
 
 export {
     ScreenContainer,
@@ -14,5 +24,9 @@ export {
     Icon,
     Text,
     Modal,
-    Layout
+    Layout,
+    TopNavigation,
+    TopNavigationAction,
+    Avatar,
+    UserAvatar
 };

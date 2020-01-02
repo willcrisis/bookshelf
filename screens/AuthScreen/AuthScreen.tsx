@@ -17,7 +17,7 @@ const AuthScreen: FunctionComponent<{}> = () => {
                 icon={style => <Icon name="google" {...style} />}
                 onPress={authService.loginWithGoogle}
             >
-                Sign-in with Google
+                Sign-in with Mudano Account
             </Button>
         </ScreenContainer>
     );

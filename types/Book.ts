@@ -7,6 +7,7 @@ export default class Book {
     ): Promise<Book> {
         const book = new Book();
         book.id = bookQuery.id;
+
         const { name, link, imageUrl, pickedBy, pickedAt } = bookQuery.data();
         book.name = name;
         book.link = link;
@@ -18,7 +19,7 @@ export default class Book {
             const userSnap = await pickedBy.get();
             const user = {
                 ...userSnap.data(),
-                id: userSnap.id
+                uid: userSnap.id
             };
             book.pickedBy = user;
         }

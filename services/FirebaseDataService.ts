@@ -1,13 +1,8 @@
 import firebase from 'firebase';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@firebase/firestore';
-import { User, Book } from 'types';
+import { User, Book, BookHistory } from 'types';
 import DataService from './DataService';
-
-const extractData = (snapshot: firebase.firestore.QueryDocumentSnapshot) => ({
-    ...snapshot.data(),
-    id: snapshot.id
-});
 
 export default class FirebaseDataService implements DataService {
     dbInstance: firebase.firestore.Firestore;
@@ -31,9 +26,7 @@ export default class FirebaseDataService implements DataService {
             .collection('books')
             .onSnapshot(async allSnaps => {
                 const snaps = [];
-                allSnaps.forEach(bookSnap => {
-                    snaps.push(bookSnap);
-                });
+                allSnaps.forEach(bookSnap => snaps.push(bookSnap));
                 const books = [];
                 await Promise.all(
                     snaps.map(async bookSnap => {
@@ -52,11 +45,47 @@ export default class FirebaseDataService implements DataService {
         });
     }
 
+    loadHistory(id: string, setHistory: (history: BookHistory[]) => void) {
+        return this.dbInstance
+            .collection(`books/${id}/history`)
+            .onSnapshot(async allSnaps => {
+                const snaps = [];
+                allSnaps.forEach(snap => snaps.push(snap));
+                const entries = [];
+                await Promise.all(
+                    snaps.map(async snap => {
+                        const history = await BookHistory.asyncConstructor(
+                            snap
+                        );
+                        entries.push(history);
+                    })
+                );
+                setHistory(entries);
+            });
+    }
+
     pickBook(id: string, userId: string) {
         return this.dbInstance.doc(`books/${id}`).set(
             {
                 pickedAt: new Date(),
                 pickedBy: this.dbInstance.doc(`users/${userId}`)
+            },
+            {
+                merge: true
+            }
+        );
+    }
+
+    returnBook(book: Book) {
+        this.dbInstance.collection(`books/${book.id}/history`).add({
+            pickedAt: book.pickedAt,
+            pickedBy: this.dbInstance.doc(`users/${book.pickedBy.uid}`),
+            returnedAt: new Date()
+        });
+        return this.dbInstance.doc(`books/${book.id}`).set(
+            {
+                pickedAt: null,
+                pickedBy: null
             },
             {
                 merge: true

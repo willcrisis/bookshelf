@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     container: {
-        justifyContent: 'space-between'
+        flex: 1
     }
 });
 

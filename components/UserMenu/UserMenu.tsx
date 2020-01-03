@@ -2,6 +2,7 @@ import React, { FunctionComponent, useCallback, useState } from 'react';
 import { OverflowMenu, TopNavigationAction } from 'react-native-ui-kitten';
 import { useService } from 'contexts/ServicesContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useAuth } from 'contexts/AuthContext';
 import UserAvatar from '../UserAvatar/UserAvatar';
 
 type UserAvatarProps = {
@@ -12,6 +13,7 @@ type UserAvatarProps = {
 const UserMenu: FunctionComponent<{}> = () => {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
+    const { currentUser } = useAuth();
     const { authService } = useService();
 
     const options = useCallback(() => {
@@ -31,7 +33,9 @@ const UserMenu: FunctionComponent<{}> = () => {
         >
             <TopNavigationAction
                 onPress={() => setMenuVisible(true)}
-                icon={props => <UserAvatar {...props} />}
+                icon={props => (
+                    <UserAvatar source={currentUser.photoURL} {...props} />
+                )}
             />
         </OverflowMenu>
     );

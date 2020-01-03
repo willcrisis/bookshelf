@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useNavigation } from 'react-navigation-hooks';
+import format from 'date-fns/format';
 import { TopNavigation, UserMenu, List, ListItem, Icon } from 'components';
 import { UIScreen, Book } from 'types';
 import { Image } from 'react-native';
@@ -23,7 +24,10 @@ const BookIcon: FunctionComponent<{
 const buildItemDescription = (book: Book): string => {
     if (book.pickedAt) {
         // return `Picked by ${book.pickedBy.displayName} at ${book.pickedAt}`;
-        return `Picked by ${book.pickedBy.displayName} at ${book.pickedAt}`;
+        return `Picked by ${book.pickedBy.displayName} at ${format(
+            book.pickedAt,
+            'dd/MM/yyyy HH:mm'
+        )}`;
     }
     return 'Available';
 };

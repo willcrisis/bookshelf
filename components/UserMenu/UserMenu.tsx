@@ -34,7 +34,10 @@ const UserMenu: FunctionComponent<{}> = () => {
             <TopNavigationAction
                 onPress={() => setMenuVisible(true)}
                 icon={props => (
-                    <UserAvatar source={currentUser.photoURL} {...props} />
+                    <UserAvatar
+                        source={currentUser && currentUser.photoURL}
+                        {...props}
+                    />
                 )}
             />
         </OverflowMenu>

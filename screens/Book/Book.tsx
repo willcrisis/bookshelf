@@ -62,7 +62,7 @@ const BookScreen: UIScreen<{}> = () => {
                 </Row>
                 <Spacer />
                 <View>
-                    <Text category="s2">Picked by</Text>
+                    <Text category="s2">Picked by:</Text>
                     {book.pickedAt ? (
                         <Row>
                             <UserAvatar

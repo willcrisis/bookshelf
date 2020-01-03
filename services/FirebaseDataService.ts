@@ -24,6 +24,7 @@ export default class FirebaseDataService implements DataService {
     loadBooks(setBooks: (books: Book[]) => void) {
         return this.dbInstance
             .collection('books')
+            .orderBy('name', 'asc')
             .onSnapshot(async allSnaps => {
                 const snaps = [];
                 allSnaps.forEach(bookSnap => snaps.push(bookSnap));
@@ -48,6 +49,7 @@ export default class FirebaseDataService implements DataService {
     loadHistory(id: string, setHistory: (history: BookHistory[]) => void) {
         return this.dbInstance
             .collection(`books/${id}/history`)
+            .orderBy('pickedAt', 'asc')
             .onSnapshot(async allSnaps => {
                 const snaps = [];
                 allSnaps.forEach(snap => snaps.push(snap));

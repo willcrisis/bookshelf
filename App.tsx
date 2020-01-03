@@ -14,14 +14,10 @@ const App = () => (
     <ThemeContextProvider>
         <ServicesContextProvider>
             <AuthContextProvider>
-                <DataContextProvider>
-                    <AppContextProvider>
-                        {Platform.OS === 'ios' && (
-                            <StatusBar barStyle="default" />
-                        )}
-                        <AppNavigator />
-                    </AppContextProvider>
-                </DataContextProvider>
+                <AppContextProvider>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                    <AppNavigator />
+                </AppContextProvider>
             </AuthContextProvider>
         </ServicesContextProvider>
     </ThemeContextProvider>

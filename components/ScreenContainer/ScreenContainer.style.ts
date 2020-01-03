@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { measures } from '../../theme';
 
 const styles = StyleSheet.create({
@@ -14,10 +14,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     paddedHorizontal: {
-        paddingHorizontal: measures.padding
+        ...Platform.select({
+            web: {
+                paddingLeft: measures.padding,
+                paddingRight: measures.padding
+            },
+            default: {
+                paddingHorizontal: measures.padding
+            }
+        })
     },
     paddedVertical: {
-        paddingVertical: measures.padding
+        ...Platform.select({
+            web: {
+                paddingTop: measures.padding,
+                paddingBottom: measures.padding
+            },
+            default: {
+                paddingVertical: measures.padding
+            }
+        })
     }
 });
 

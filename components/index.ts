@@ -17,6 +17,7 @@ import ScreenContainer from './ScreenContainer/ScreenContainer';
 import Spacer from './Spacer/Spacer';
 import UserAvatar from './UserAvatar/UserAvatar';
 import UserMenu from './UserMenu/UserMenu';
+import Row from './Row/Row';
 
 export {
     ScreenContainer,
@@ -34,5 +35,6 @@ export {
     UserAvatar,
     List,
     ListItem,
-    UserMenu
+    UserMenu,
+    Row
 };

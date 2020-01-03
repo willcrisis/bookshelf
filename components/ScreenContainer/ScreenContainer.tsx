@@ -38,7 +38,7 @@ const ScreenContainer: FunctionComponent<PropsWithChildren<Props>> = ({
     }
 
     if (padded) {
-        appliedStyles.push(styles.paddedHorizontal, paddedVertical);
+        appliedStyles.push(styles.paddedHorizontal, styles.paddedVertical);
     } else {
         if (paddedHorizontal) {
             appliedStyles.push(styles.paddedHorizontal);

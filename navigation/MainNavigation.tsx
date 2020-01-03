@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { useAuth } from '../contexts/AuthContext';
-import { useApp } from '../contexts/AppContext';
-import LoadingScreen from '../screens/LoadingScreen';
-import BookList from '../screens/BookList/BookList';
-import AuthScreen from '../screens/AuthScreen/AuthScreen';
+import Book from 'screens/Book/Book';
+import LoadingScreen from 'screens/LoadingScreen';
+import BookList from 'screens/BookList/BookList';
+import AuthScreen from 'screens/Auth/Auth';
+import { useAuth } from 'contexts/AuthContext';
+import { useApp } from 'contexts/AppContext';
 
 const AppNavigator = createStackNavigator(
     {
-        Books: BookList
+        Books: BookList,
+        Book
     },
     {
         initialRouteName: 'Books',

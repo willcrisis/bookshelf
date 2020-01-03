@@ -27,17 +27,40 @@ export default class FirebaseDataService implements DataService {
     }
 
     loadBooks(setBooks: (books: Book[]) => void) {
-        const unsubscribes = [];
-        unsubscribes.push(
-            this.dbInstance.collection('books').onSnapshot(allSnaps => {
-                const books = [];
+        return this.dbInstance
+            .collection('books')
+            .onSnapshot(async allSnaps => {
+                const snaps = [];
                 allSnaps.forEach(bookSnap => {
-                    const book = extractData(bookSnap);
-                    books.push(book);
+                    snaps.push(bookSnap);
                 });
+                const books = [];
+                await Promise.all(
+                    snaps.map(async bookSnap => {
+                        const book = await Book.asyncConstructor(bookSnap);
+                        books.push(book);
+                    })
+                );
                 setBooks(books);
-            })
+            });
+    }
+
+    loadBook(id: string, setBook: (book: Book) => void) {
+        return this.dbInstance.doc(`books/${id}`).onSnapshot(async bookSnap => {
+            const book = await Book.asyncConstructor(bookSnap);
+            setBook(book);
+        });
+    }
+
+    pickBook(id: string, userId: string) {
+        return this.dbInstance.doc(`books/${id}`).set(
+            {
+                pickedAt: new Date(),
+                pickedBy: this.dbInstance.doc(`users/${userId}`)
+            },
+            {
+                merge: true
+            }
         );
-        return unsubscribes;
     }
 }

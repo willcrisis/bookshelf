@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { useNavigation } from 'react-navigation-hooks';
 import { TopNavigation, UserMenu, List, ListItem, Icon } from 'components';
 import { UIScreen, Book } from 'types';
-import { useData } from 'contexts/DataContext';
 import { Image } from 'react-native';
+import { useService } from 'contexts/ServicesContext';
 
 const BookIcon: FunctionComponent<{
     book: Book;
@@ -22,13 +23,25 @@ const BookIcon: FunctionComponent<{
 const buildItemDescription = (book: Book): string => {
     if (book.pickedAt) {
         // return `Picked by ${book.pickedBy.displayName} at ${book.pickedAt}`;
-        return 'Picked';
+        return `Picked by ${book.pickedBy.displayName} at ${book.pickedAt}`;
     }
     return 'Available';
 };
 
 const BookList: UIScreen<{}> = () => {
-    const { books } = useData();
+    const [books, setBooks] = useState([]);
+    const { dataService } = useService();
+
+    const { navigate } = useNavigation();
+
+    useEffect(() => {
+        const unsubscribe = dataService.loadBooks(setBooks);
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
     return (
         <List
             data={books}
@@ -37,6 +50,7 @@ const BookList: UIScreen<{}> = () => {
                     title={item.name}
                     description={buildItemDescription(item)}
                     icon={style => <BookIcon book={item} style={style} />}
+                    onPress={() => navigate('Book', { id: item.id })}
                     accessory={() => (
                         <Icon width={24} height={24} name="chevron-right" />
                     )}

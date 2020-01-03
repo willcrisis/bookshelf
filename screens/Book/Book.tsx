@@ -3,6 +3,7 @@ import { Image, View } from 'react-native';
 import format from 'date-fns/format';
 import { UIScreen, Book, BookHistory } from 'types';
 import { useNavigationParam, useNavigation } from 'react-navigation-hooks';
+import * as WebBrowser from 'expo-web-browser';
 import {
     TopNavigation,
     TopNavigationAction,
@@ -57,7 +58,14 @@ const BookScreen: UIScreen<{}> = () => {
                         <Text category="h6" style={styles.title}>
                             {book.name}
                         </Text>
-                        <Button status="basic">Open link</Button>
+                        <Button
+                            status="basic"
+                            onPress={() => {
+                                WebBrowser.openBrowserAsync(book.link);
+                            }}
+                        >
+                            Open link
+                        </Button>
                     </View>
                 </Row>
                 <Spacer />

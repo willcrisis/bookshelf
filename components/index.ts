@@ -16,6 +16,7 @@ import PasswordInput from './PasswordInput';
 import ScreenContainer from './ScreenContainer/ScreenContainer';
 import Spacer from './Spacer/Spacer';
 import UserAvatar from './UserAvatar/UserAvatar';
+import UserMenu from './UserMenu/UserMenu';
 
 export {
     ScreenContainer,
@@ -32,5 +33,6 @@ export {
     Avatar,
     UserAvatar,
     List,
-    ListItem
+    ListItem,
+    UserMenu
 };

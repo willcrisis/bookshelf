@@ -1,12 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-    TopNavigation,
-    TopNavigationAction,
-    UserAvatar,
-    List,
-    ListItem,
-    Icon
-} from 'components';
+import { TopNavigation, UserMenu, List, ListItem, Icon } from 'components';
 import { UIScreen, Book } from 'types';
 import { useData } from 'contexts/DataContext';
 import { Image, StyleProp } from 'react-native';
@@ -53,12 +46,8 @@ const BookList: UIScreen<{}> = () => {
     );
 };
 
-const SettingsMenu: FunctionComponent<{}> = () => (
-    <TopNavigationAction icon={props => <UserAvatar {...props} />} />
-);
-
 const AppScreenHeader: FunctionComponent<{}> = () => (
-    <TopNavigation title="Bookshelf" rightControls={[<SettingsMenu />]} />
+    <TopNavigation title="Bookshelf" rightControls={[<UserMenu />]} />
 );
 
 BookList.navigationOptions = {

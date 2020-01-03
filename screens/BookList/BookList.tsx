@@ -2,11 +2,11 @@ import React, { FunctionComponent } from 'react';
 import { TopNavigation, UserMenu, List, ListItem, Icon } from 'components';
 import { UIScreen, Book } from 'types';
 import { useData } from 'contexts/DataContext';
-import { Image, StyleProp } from 'react-native';
+import { Image } from 'react-native';
 
 const BookIcon: FunctionComponent<{
     book: Book;
-    style: Array<StyleProp<{}>>;
+    style: any;
 }> = ({ book, style }) => {
     if (book.imageUrl) {
         return (

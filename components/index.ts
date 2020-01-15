@@ -18,6 +18,7 @@ import Spacer from './Spacer/Spacer';
 import UserAvatar from './UserAvatar/UserAvatar';
 import UserMenu from './UserMenu/UserMenu';
 import Row from './Row/Row';
+import OfficeSelector from './OfficeSelector/OfficeSelector';
 
 export {
     ScreenContainer,
@@ -36,5 +37,6 @@ export {
     List,
     ListItem,
     UserMenu,
-    Row
+    Row,
+    OfficeSelector
 };

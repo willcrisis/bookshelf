@@ -58,6 +58,11 @@ const BookScreen: UIScreen<{}> = () => {
                         <Text category="h6" style={styles.title}>
                             {book.name}
                         </Text>
+                        <Text category="s2" style={styles.title}>
+                            Available at&nbsp;
+                            {book.office.name}
+                            &nbsp;office
+                        </Text>
                         <Button
                             status="basic"
                             onPress={() => {

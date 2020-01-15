@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import User from './User';
+import Office from './Office';
 
 export default class Book {
     static async asyncConstructor(
@@ -7,8 +8,16 @@ export default class Book {
     ): Promise<Book> {
         const book = new Book();
         book.id = bookQuery.id;
+        book.ref = bookQuery.ref;
 
-        const { name, link, imageUrl, pickedBy, pickedAt } = bookQuery.data();
+        const {
+            name,
+            link,
+            imageUrl,
+            pickedBy,
+            pickedAt,
+            office
+        } = bookQuery.data();
         book.name = name;
         book.link = link;
         book.imageUrl = imageUrl;
@@ -22,6 +31,11 @@ export default class Book {
                 uid: userSnap.id
             };
             book.pickedBy = user;
+        }
+        if (office) {
+            const snap = await office.get();
+
+            book.office = await Office.asyncConstructor(snap);
         }
         return book;
     }
@@ -37,4 +51,8 @@ export default class Book {
     pickedBy: User;
 
     pickedAt: Date;
+
+    office: Office;
+
+    ref: firebase.firestore.DocumentReference;
 }

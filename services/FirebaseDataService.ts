@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@firebase/firestore';
-import { User, Book, BookHistory } from 'types';
+import { User, Book, BookHistory, Office } from 'types';
 import DataService from './DataService';
 
 export default class FirebaseDataService implements DataService {
@@ -9,6 +9,42 @@ export default class FirebaseDataService implements DataService {
 
     constructor() {
         this.dbInstance = firebase.firestore();
+    }
+
+    loadCollection(
+        collection: string,
+        setCollection: (collection: any) => void,
+        entryConstructor: (
+            snap: firebase.firestore.QueryDocumentSnapshot
+        ) => Promise<any>,
+        filters?: Array<[string, firebase.firestore.WhereFilterOp, any]>,
+        orderBy?: Array<[string, firebase.firestore.OrderByDirection]>
+    ) {
+        let collectionRef: firebase.firestore.Query = this.dbInstance.collection(
+            collection
+        );
+        if (orderBy && orderBy.length > 0) {
+            orderBy.forEach(order => {
+                collectionRef = collectionRef.orderBy(...order);
+            });
+        }
+        if (filters) {
+            filters.forEach(filter => {
+                collectionRef = collectionRef.where(...filter);
+            });
+        }
+        return collectionRef.onSnapshot(async allSnaps => {
+            const snaps = [];
+            allSnaps.forEach(snap => snaps.push(snap));
+            const data = [];
+            await Promise.all(
+                snaps.map(async snap => {
+                    const entry = await entryConstructor(snap);
+                    data.push(entry);
+                })
+            );
+            setCollection(data);
+        });
     }
 
     updateUserData(user: User) {
@@ -21,22 +57,14 @@ export default class FirebaseDataService implements DataService {
         });
     }
 
-    loadBooks(setBooks: (books: Book[]) => void) {
-        return this.dbInstance
-            .collection('books')
-            .orderBy('name', 'asc')
-            .onSnapshot(async allSnaps => {
-                const snaps = [];
-                allSnaps.forEach(bookSnap => snaps.push(bookSnap));
-                const books = [];
-                await Promise.all(
-                    snaps.map(async bookSnap => {
-                        const book = await Book.asyncConstructor(bookSnap);
-                        books.push(book);
-                    })
-                );
-                setBooks(books);
-            });
+    loadBooks(setBooks: (books: Book[]) => void, office: Office) {
+        return this.loadCollection(
+            'books',
+            setBooks,
+            snap => Book.asyncConstructor(snap),
+            office && [['office', '==', office.ref]],
+            [['name', 'asc']]
+        );
     }
 
     loadBook(id: string, setBook: (book: Book) => void) {
@@ -47,23 +75,13 @@ export default class FirebaseDataService implements DataService {
     }
 
     loadHistory(id: string, setHistory: (history: BookHistory[]) => void) {
-        return this.dbInstance
-            .collection(`books/${id}/history`)
-            .orderBy('pickedAt', 'asc')
-            .onSnapshot(async allSnaps => {
-                const snaps = [];
-                allSnaps.forEach(snap => snaps.push(snap));
-                const entries = [];
-                await Promise.all(
-                    snaps.map(async snap => {
-                        const history = await BookHistory.asyncConstructor(
-                            snap
-                        );
-                        entries.push(history);
-                    })
-                );
-                setHistory(entries);
-            });
+        return this.loadCollection(
+            `books/${id}/history`,
+            setHistory,
+            snap => BookHistory.asyncConstructor(snap),
+            null,
+            [['pickedAt', 'asc']]
+        );
     }
 
     pickBook(id: string, userId: string) {
@@ -92,6 +110,16 @@ export default class FirebaseDataService implements DataService {
             {
                 merge: true
             }
+        );
+    }
+
+    loadOffices(setOffices: (offices: Office[]) => void) {
+        return this.loadCollection(
+            'offices',
+            setOffices,
+            snap => Office.asyncConstructor(snap),
+            null,
+            [['name', 'asc']]
         );
     }
 }

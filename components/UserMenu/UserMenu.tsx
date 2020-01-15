@@ -1,14 +1,8 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 import { OverflowMenu, TopNavigationAction } from 'react-native-ui-kitten';
 import { useService } from 'contexts/ServicesContext';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from 'contexts/AuthContext';
 import UserAvatar from '../UserAvatar/UserAvatar';
-
-type UserAvatarProps = {
-    width: number;
-    height: number;
-};
 
 const UserMenu: FunctionComponent<{}> = () => {
     const [isMenuVisible, setMenuVisible] = useState(false);

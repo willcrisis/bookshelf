@@ -6,6 +6,7 @@ export default class BookHistory {
     ): Promise<BookHistory> {
         const history = new BookHistory();
         history.id = query.id;
+        history.ref = query.ref;
 
         const { pickedAt, returnedAt, pickedBy } = query.data();
         history.pickedAt = new Date(pickedAt.seconds * 1000);
@@ -29,4 +30,6 @@ export default class BookHistory {
     returnedAt: Date;
 
     pickedBy: User;
+
+    ref: firebase.firestore.DocumentReference;
 }
